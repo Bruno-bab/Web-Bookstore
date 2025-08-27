@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Books by Author</title>
+</head>
+<body>
+    <h1>List of books by author</h1>
+    <ul id="bookList"></ul>
+    <button type="button" id="goToBooks">View books</button>
+
+    <script>
+        document.getElementById("goToBooks").addEventListener("click", function() {
+            window.location.href = "http://localhost:8080/books.html";
+        });
+        async function loadBooks() {
+            const response = await fetch("/books");
+            const books = await response.json();
+            const list = document.getElementById("bookList");
+            list.innerHTML = "";
+            books.forEach(book => {
+                const li = document.createElement("li");
+                li.textContent = `${book.id} | ${book.title} | ${book.author} | ${book.price} euros`;
+                list.appendChild(li);
+            });
+        }
+        loadBooks();
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+</head>
+<body>
+    <h1>List of orders</h1>
+    <ul id="orderList"></ul>
+    <button type="button" id="goToBooks">View books</button>
+
+    <script>
+        document.getElementById("goToBooks").addEventListener("click", function() {
+            window.location.href = "http://localhost:8080/books.html";
+        });
+        async function loadOrders() {
+            const response = await fetch("/orders");
+            const orders = await response.json();
+            const list = document.getElementById("orderList");
+            list.innerHTML = "";
+            orders.forEach(book => {
+                const li = document.createElement("li");
+                li.textContent = `Book ${book.bookId} | ${book.name} | ${book.email}`;
+                list.appendChild(li);
+            });
+        }
+        loadOrders();
+    </script>
+</body>
+</html>

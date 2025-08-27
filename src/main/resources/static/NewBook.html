@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new book</title>
+</head>
+<body>
+    <h1>Add new book</h1>
+    <form id="bookForm">
+        <input type="text" id="title" placeholder="Title" required/><br/>
+        <input type="text" id="author" placeholder="Author" required/><br/>
+        <input type="number" id="price" placeholder="Price" required/><br/>
+        <button type="submit">Add book</button>
+        <button type="button" id="goToBooks">View Books</button>
+    </form>
+
+    <script>
+        document.getElementById("bookForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const book = {
+                title: document.getElementById("title").value,
+                author: document.getElementById("author").value,
+                price: parseFloat(document.getElementById("price").value)
+            };
+            const response = await fetch("/books", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(book)
+            });
+            if (response.ok) {
+                alert("New book has been added!");
+            } else {
+                alert("Error.");
+            }
+        });
+        document.getElementById("goToBooks").addEventListener("click", function() {
+            window.location.href = "http://localhost:8080/books.html";
+        });
+    </script>
+</body>
+</html>

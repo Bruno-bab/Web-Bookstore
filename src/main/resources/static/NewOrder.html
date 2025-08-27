@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Place new order</title>
+</head>
+<body>
+    <h1>Place new order</h1>
+    <form id="orderForm">
+        <input type="number" id="bookId" placeholder="Book ID" required/><br/>
+        <input type="text" id="name" placeholder="Name" required/><br/>
+        <input type="text" id="email" placeholder="Email" required/><br/>
+        <button type="submit">Place Order</button>
+        <button type="button" id="goToBooks">View Books</button>
+    </form>
+
+    <script>
+        document.getElementById("orderForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const order = {
+                bookId: parseInt(document.getElementById("bookId").value),
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value
+            };
+            const response = await fetch("/orders", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(order)
+            });
+            if (response.ok) {
+                alert("New order has been placed!");
+            } else {
+                alert("Error.");
+            }
+        });
+        document.getElementById("goToBooks").addEventListener("click", function() {
+            window.location.href = "http://localhost:8080/books.html";
+        });
+    </script>
+</body>
+</html>
